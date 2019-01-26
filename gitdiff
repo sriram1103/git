@@ -1,0 +1,28 @@
+                           diff-tree
+                            +----+
+                            |    |
+                            |    |
+                            V    V
+                         +-----------+
+                         | Object DB |
+                         |  Backing  |
+                         |   Store   |
+                         +-----------+
+                           ^    ^
+                           |    |
+                           |    |  diff-index --cached
+                           |    |
+               diff-index  |    V
+                           |  +-----------+
+                           |  |   Index   |
+                           |  |  "cache"  |
+                           |  +-----------+
+                           |    ^
+                           |    |
+                           |    |  diff-files
+                           |    |
+                           V    V
+                         +-----------+
+                         |  Working  |
+                         | Directory |
+                         +-----------+
