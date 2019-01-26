@@ -1,0 +1,64 @@
+$ mkdir test-project
+$ cd test-project
+$ git init
+ Initialized empty Git repository in .git/
+$ echo 'hello world' > file.txt
+$ git add .
+$ git commit -a -m "initial commit"
+ [master (root-commit) 54196cc] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file.txt
+$ echo 'hello world!' >file.txt
+$ git commit -a -m "add emphasis"
+ [master c4d59f3] add emphasis
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+What are the 7 digits of hex that Git responded to the commit with?
+
+ $ git cat-file -t 54196cc2
+ commit
+ $ git cat-file commit 54196cc2
+ tree 92b8b694ffb1675e5975148e1121810081dbdffe
+ author J. Bruce Fields <bfields@puzzle.fieldses.org> 1143414668 -0500
+ committer J. Bruce Fields <bfields@puzzle.fieldses.org> 1143414668 -0500
+
+ initial commit
+
+A tree can refer to one or more "blob" objects, each corresponding to a file. In addition, a tree can also refer to other tree objects, thus creating a directory hierarchy. You
+can examine the contents of any tree using ls-tree (remember that a long enough initial portion of the SHA-1 will also work):
+
+ $ git ls-tree 92b8b694
+ 100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad    file.txt
+
+Thus we see that this tree has one file in it. The SHA-1 hash is a reference to that file’s data:
+
+ $ git cat-file -t 3b18e512
+ blob
+
+A "blob" is just file data, which we can also examine with cat-file:
+
+ $ git cat-file blob 3b18e512
+ hello world
+
+sriram@sriram-pc:/tmp/test-project$ git cat-file commit HEAD
+tree 910272668ec46354ac35e69b703934c2aa3d9ef5   # git tree object of this commit
+parent 6f8b1edc1e33b863ab95734ccee3235b2c2f9691 # previous commit object
+author Sriram <sriramkarthi11@gmail.com> 1548500670 +0530
+committer Sriram <sriramkarthi11@gmail.com> 1548500670 +0530
+
+three
+
+
+git add  - creates a git blob object
+ git add did was store a new blob and then put a reference to it in the index file
+
+git commit  - creates a git tree object which has the previous commits info and the latest file added
+So by default git commit uses the index to create the commit, not the working tree; the "-a" option to commit tells it to first update the index with all changes in the working
+       tree.
+
+
+.git/HEAD - will point to .git/refs/heads/<>
+ all these are pointed to some git commit object
+ 
+ 
+
