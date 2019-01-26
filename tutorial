@@ -1,0 +1,152 @@
+
+Read the commited changes:
+ git diff --cached\
+ 
+At any point you can view the history of your changes using
+     $ git log
+
+ If you also want to see complete diffs at each step, use
+     $ git log -p
+
+ Often the overview of the change is useful to get a feel of each step
+     $ git log --stat --summary
+
+The "pull" command thus performs two operations: it fetches changes from a remote branch, then merges them into the current branch.
+
+Alice can peek at what Bob did without merging first, using the "fetch" command; this allows Alice to inspect what Bob did, using a special symbol "FETCH_HEAD", in order to
+       determine if he has anything worth pulling, like this:
+           alice$ git fetch /home/bob/myrepo master
+           alice$ git log -p HEAD..FETCH_HEAD
+
+ This operation is safe even if Alice has uncommitted local changes. The range notation "HEAD..FETCH_HEAD" means "show everything that is reachable from the FETCH_HEAD but
+       exclude anything that is reachable from HEAD". Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she
+       has not seen with this command.
+ 
+  If Alice wants to visualize what Bob did since their histories forked she can issue the following command:
+           $ gitk HEAD..FETCH_HEAD
+
+  This uses the same two-dot range notation we saw earlier with git log
+
+  Alice may want to view what both of them did since they forked. She can use three-dot form instead of the two-dot form
+        $ gitk HEAD...FETCH_HEAD
+
+
+
+Read the commited changes:
+ git diff --cached\
+ 
+At any point you can view the history of your changes using
+     $ git log
+
+ If you also want to see complete diffs at each step, use
+     $ git log -p
+
+ Often the overview of the change is useful to get a feel of each step
+     $ git log --stat --summary
+
+The "pull" command thus performs two operations: it fetches changes from a remote branch, then merges them into the current branch.
+
+Alice can peek at what Bob did without merging first, using the "fetch" command; this allows Alice to inspect what Bob did, using a special symbol "FETCH_HEAD", in order to
+       determine if he has anything worth pulling, like this:
+           alice$ git fetch /home/bob/myrepo master
+           alice$ git log -p HEAD..FETCH_HEAD
+
+ This operation is safe even if Alice has uncommitted local changes. The range notation "HEAD..FETCH_HEAD" means "show everything that is reachable from the FETCH_HEAD but
+       exclude anything that is reachable from HEAD". Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she
+       has not seen with this command.
+ 
+  If Alice wants to visualize what Bob did since their histories forked she can issue the following command:
+           $ gitk HEAD..FETCH_HEAD
+
+  This uses the same two-dot range notation we saw earlier with git log
+
+  Alice may want to view what both of them did since they forked. She can use three-dot form instead of the two-dot form
+        $ gitk HEAD...FETCH_HEAD
+
+Read the commited changes:
+ git diff --cached\
+ 
+At any point you can view the history of your changes using
+     $ git log
+
+ If you also want to see complete diffs at each step, use
+     $ git log -p
+
+ Often the overview of the change is useful to get a feel of each step
+     $ git log --stat --summary
+
+The "pull" command thus performs two operations: it fetches changes from a remote branch, then merges them into the current branch.
+
+Alice can peek at what Bob did without merging first, using the "fetch" command; this allows Alice to inspect what Bob did, using a special symbol "FETCH_HEAD", in order to
+       determine if he has anything worth pulling, like this:
+           alice$ git fetch /home/bob/myrepo master
+           alice$ git log -p HEAD..FETCH_HEAD
+
+ This operation is safe even if Alice has uncommitted local changes. The range notation "HEAD..FETCH_HEAD" means "show everything that is reachable from the FETCH_HEAD but
+       exclude anything that is reachable from HEAD". Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she
+       has not seen with this command.
+ 
+  If Alice wants to visualize what Bob did since their histories forked she can issue the following command:
+           $ gitk HEAD..FETCH_HEAD
+
+  This uses the same two-dot range notation we saw earlier with git log
+
+  Alice may want to view what both of them did since they forked. She can use three-dot form instead of the two-dot form
+        $ gitk HEAD...FETCH_HEAD
+          
+          
+  $ git show c82a22c39cbc32576f64f5c6b3f24b99ea8149c7
+
+But there are other ways to refer to commits. You can use any initial part of the name that is long enough to uniquely identify the commit:
+
+   $ git show c82a22c39c   # the first few characters of the name are
+                           # usually enough
+   $ git show HEAD         # the tip of the current branch
+   $ git show experimental # the tip of the "experimental" branch
+
+Every commit usually has one "parent" commit which points to the previous state of the project:
+
+   $ git show HEAD^  # to see the parent of HEAD
+   $ git show HEAD^^ # to see the grandparent of HEAD
+   $ git show HEAD~4 # to see the great-great grandparent of HEAD
+
+Note that merge commits may have more than one parent:
+
+   $ git show HEAD^1 # show the first parent of HEAD (same as HEAD^)
+   $ git show HEAD^2 # show the second parent of HEAD
+
+
+You can also give commits names of your own; after running
+
+ $ git tag v2.5 1b2e1d63ff
+
+you can refer to 1b2e1d63ff by the name "v2.5". If you intend to share this name with other people (for example, to identify a release version), you should create a "tag"
+object, and perhaps sign it; see git-tag(1) for details.
+
+Any Git command that needs to know a commit can take any of these names. For example:
+
+ $ git diff v2.5 HEAD     # compare the current HEAD to v2.5
+ $ git branch stable v2.5 # start a new branch named "stable" based
+                          # at v2.5
+ $ git reset --hard HEAD^ # reset your current branch and working
+                          # directory to its state at HEAD^
+
+              The git grep command can search for strings in any version of your project, so
+
+ $ git grep "hello" v2.5
+
+searches for all occurrences of "hello" in v2.5.
+
+If you leave out the commit name, git grep will search any of the files it manages in your current directory. So
+
+ $ git grep "hello"
+
+is a quick way to search just the files that are tracked by Git.
+
+Many Git commands also take sets of commits, which can be specified in a number of ways. Here are some examples with git log:
+
+ $ git log v2.5..v2.6            # commits between v2.5 and v2.6
+ $ git log v2.5..                # commits since v2.5
+ $ git log --since="2 weeks ago" # commits from the last 2 weeks
+ $ git log v2.5.. Makefile       # commits since v2.5 which modify
+                                 # Makefile
